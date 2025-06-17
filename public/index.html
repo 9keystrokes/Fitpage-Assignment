@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Reviews</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Product Reviews</h1>
+      <form id="userForm" class="flex-center">
+        <input type="text" id="userName" placeholder="Name" class="rounded" required>
+        <input type="email" id="userEmail" placeholder="Email" class="rounded" required>
+        <button type="submit" class="btn-large rounded">Set User</button>
+    </form>
+    
+    <div id="currentUser" class="notice-box flex-center rounded-sm bold-text" style="display:none">
+        User: <span id="currentUserName"></span>
+        <button id="changeUser">Change</button>
+    </div>
+    
+    <div id="userNotice" class="notice-box rounded-sm bold-text" style="display:none">Please set user first</div>
+    
+    <h2>Products</h2>
+    <div id="productsContainer"></div>
+    
+    <div id="ratingModal" class="modal" style="display:none">
+        <div class="modal-content">
+            <span id="closeModal">&times;</span>
+            <h3 id="modalTitle">Rate Product</h3>            
+            <form id="ratingReviewForm" class="full-width-form" enctype="multipart/form-data">
+                <input type="hidden" id="modalProductId">
+                <div class="star-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <input type="text" id="reviewTitle" placeholder="Title">
+                <textarea id="reviewText" placeholder="Review"></textarea>
+                <div class="photo-upload-section">
+                    <label for="reviewImage" class="photo-upload-label">
+                        Add Photo (Optional)
+                    </label>
+                    <input type="file" id="reviewImage" name="image" accept="image/*" class="photo-input">
+                    <div id="photoPreview" class="photo-preview" style="display:none">
+                        <img id="previewImg" src="" alt="Photo preview">
+                        <button type="button" id="removePhoto" class="remove-photo-btn">✕</button>
+                    </div>
+                    <div class="photo-upload-hint">Maximum file size: 5MB</div>
+                </div>
+                <button type="submit">Submit</button>
+                <button type="button" id="cancelModal">Cancel</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="reviewsModal" class="modal" style="display:none">
+        <div class="modal-content">
+            <span id="closeReviewsModal">&times;</span>
+            <h3 id="reviewsModalTitle">Reviews</h3>
+            <div id="reviewsContent"></div>
+        </div>
+    </div>
+
+    <!-- full-size photos -->
+    <div id="imageModal" class="modal" style="display:none">
+        <div class="modal-content" style="max-width: 90%; text-align: center;">
+            <span id="closeImageModal" style="float: right; font-size: 28px; cursor: pointer;">&times;</span>
+            <img id="fullSizeImage" style="max-width: 100%; max-height: 80vh; object-fit: contain; margin-top: 20px;">
+        </div>
+    </div>
+      <div id="loading" class="notification bg-primary" style="display:none">Loading...</div>
+    <div id="error" class="notification bg-error" style="display:none"></div>
+    <div id="success" class="notification bg-success" style="display:none"></div>
+    
+    <script src="/js/app.js"></script>
+</body>
+</html>
