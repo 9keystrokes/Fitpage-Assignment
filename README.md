@@ -56,13 +56,6 @@ npm run dev
 
 Application will be available at: `http://localhost:3000`
 
-## Testing
-
-### Health Check
-```bash
-curl -X GET "http://localhost:3000/api/health"
-```
-
 ### Web Interface Testing
 1. Navigate to `http://localhost:3000`
 2. Set up a user (name and email)
