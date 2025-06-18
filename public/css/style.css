@@ -227,6 +227,7 @@ button:hover {
 
 #ratingReviewForm input,
 #ratingReviewForm textarea,
+#ratingReviewForm select,
 #ratingReviewForm button {
     display: block;
     width: 100%;
@@ -431,4 +432,50 @@ body::-webkit-scrollbar, .modal-content::-webkit-scrollbar, #productsContainer::
 body::-webkit-scrollbar-thumb, .modal-content::-webkit-scrollbar-thumb, #productsContainer::-webkit-scrollbar-thumb {
     background: #e3e6ea;
     border-radius: 8px;
+}
+
+/* Rating dropdown styles */
+.rating-section {
+    margin: 15px 0;
+}
+
+.rating-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    text-align: left;
+}
+
+#ratingDropdown {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 0;
+    border: 1.5px solid #e3e6ea;
+    border-radius: 10px;
+    font-size: 15px;
+    background: #f7f8fa;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#ratingDropdown:focus {
+    border-color: #007cba;
+    outline: none;
+}
+
+#ratingDropdown option {
+    padding: 8px;
+    background: #fff;
+    color: #333;
+}
+
+/* Character counter styles */
+.character-counter {
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: right;
+    color: #666;
+    font-weight: 500;
 }

@@ -30,8 +30,21 @@
             <form id="ratingReviewForm" class="full-width-form" enctype="multipart/form-data">
                 <input type="hidden" id="modalProductId">
                 
+                <div class="rating-section">
+                    <label for="ratingDropdown">Rating (Optional):</label>
+                    <select id="ratingDropdown" name="rating">
+                        <option value="">Select Rating</option>
+                        <option value="1">1 Star - Poor</option>
+                        <option value="2">2 Stars - Fair</option>
+                        <option value="3">3 Stars - Good</option>
+                        <option value="4">4 Stars - Very Good</option>
+                        <option value="5">5 Stars - Excellent</option>
+                    </select>
+                </div>
+                
                 <input type="text" id="reviewTitle" placeholder="Title">
                 <textarea id="reviewText" placeholder="Review"></textarea>
+                <div id="reviewTextCounter" class="character-counter" style="display:none">0 characters (minimum 10 required)</div>
                 <div class="photo-upload-section">
                     <label for="reviewImage" class="photo-upload-label">
                         Add Photo (Optional)

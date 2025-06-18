@@ -1,4 +1,4 @@
-let currentUser = null, products = [], selectedRating = 0;
+let currentUser = null, products = [];
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -14,8 +14,8 @@ function setupEvents() {
     document.getElementById('cancelModal').addEventListener('click', () => closeModal('rating'));
     document.getElementById('closeReviewsModal').addEventListener('click', () => closeModal('reviews'));
     document.getElementById('ratingReviewForm').addEventListener('submit', handleRatingSubmit);
-    setupStarRating();
     setupPhotoUpload();
+    setupCharacterCounter();
     
     // Setup image modal close event
     document.getElementById('closeImageModal').addEventListener('click', closeImageModal);
@@ -133,38 +133,19 @@ function openRatingModal(productId, productName) {
     document.getElementById('modalProductId').value = productId;
     document.getElementById('modalTitle').textContent = `Rate: ${productName}`;
     document.getElementById('ratingReviewForm').reset();
-    resetStarRating();
     
     // Reset photo preview
     document.getElementById('photoPreview').style.display = 'none';
     document.getElementById('previewImg').src = '';
+    
+    // Reset character counter
+    document.getElementById('reviewTextCounter').style.display = 'none';
     
     document.getElementById('ratingModal').style.display = 'block';
 }
 
 function closeModal(type) {
     document.getElementById(type + 'Modal').style.display = 'none';
-}
-
-function setupStarRating() {
-    const stars = document.querySelectorAll('.star');
-    stars.forEach((star, i) => {
-        star.onclick = () => {
-            selectedRating = i + 1;
-            highlightStars(selectedRating);
-        };
-    });
-}
-
-function highlightStars(rating) {
-    document.querySelectorAll('.star').forEach((star, i) => {
-        star.classList.toggle('active', i < rating);
-    });
-}
-
-function resetStarRating() {
-    selectedRating = 0;
-    highlightStars(0);
 }
 
 function setupPhotoUpload() {
@@ -212,9 +193,26 @@ async function handleRatingSubmit(e) {
     const productId = document.getElementById('modalProductId').value;
     const title = document.getElementById('reviewTitle').value.trim();
     const text = document.getElementById('reviewText').value.trim();
+    const ratingDropdown = document.getElementById('ratingDropdown');
+    const selectedRating = ratingDropdown.value;
     const photoInput = document.getElementById('reviewImage');
     
-    if (!selectedRating && !text) return showMessage('error', 'Provide rating or review');
+    // Validate input according to server requirements
+    if (!selectedRating && !text) {
+        return showMessage('error', 'Either rating or review must be provided');
+    }
+    
+    if (text && text.length < 10) {
+        return showMessage('error', 'Review text must be at least 10 characters long');
+    }
+    
+    if (text && text.length > 2000) {
+        return showMessage('error', 'Review text must be less than 2000 characters');
+    }
+    
+    if (title && title.length > 255) {
+        return showMessage('error', 'Title must be less than 255 characters');
+    }
     
     try {
         // Create FormData for file upload
@@ -233,7 +231,14 @@ async function handleRatingSubmit(e) {
         });
         
         const result = await response.json();
-        if (!result.success) throw new Error(result.message);
+        if (!result.success) {
+            // Handle validation errors from server
+            if (result.errors && Array.isArray(result.errors)) {
+                const errorMessages = result.errors.map(err => err.msg || err.message).join(', ');
+                throw new Error(errorMessages);
+            }
+            throw new Error(result.message || 'Failed to submit rating/review');
+        }
         
         showMessage('success', 'Submitted successfully');
         closeModal('rating');
@@ -328,6 +333,39 @@ function openImageModal(imageUrl) {
 
 function closeImageModal() {
     document.getElementById('imageModal').style.display = 'none';
+}
+
+function setupCharacterCounter() {
+    const reviewTextArea = document.getElementById('reviewText');
+    const counter = document.getElementById('reviewTextCounter');
+    
+    reviewTextArea.addEventListener('input', function() {
+        const length = this.value.length;
+        
+        if (length > 0) {
+            counter.style.display = 'block';
+            const isValid = length >= 10 && length <= 2000;
+            counter.textContent = `${length} characters`;
+            
+            if (length < 10) {
+                counter.textContent += ` (minimum 10 required)`;
+                counter.style.color = '#e74c3c';
+            } else if (length > 2000) {
+                counter.textContent += ` (maximum 2000 allowed)`;
+                counter.style.color = '#e74c3c';
+            } else {
+                counter.style.color = '#1db954';
+            }
+        } else {
+            counter.style.display = 'none';
+        }
+    });
+    
+    reviewTextArea.addEventListener('blur', function() {
+        if (this.value.length === 0) {
+            counter.style.display = 'none';
+        }
+    });
 }
 
 // Global functions for HTML onclick
