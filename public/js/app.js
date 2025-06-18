@@ -88,24 +88,36 @@ function displayProducts() {
 }
 
 function createProductCard(product) {
-    const rating = parseFloat(product.average_rating) || 0;
-    const total = parseInt(product.total_ratings) || 0;
-      return `
-        <div class="product-card">
-            ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}" class="product-image">` : ''}
-            <div class="product-name">${product.name}</div>
-            <div>${product.description}</div>
-            <div class="price-rating-container">
-                <div class="product-price">₹${product.price}</div>
-                <div class="rating-info">
-                    <div class="stars">${generateStars(rating)}</div>
-                    <div>${rating.toFixed(1)} (${total} ratings)</div>
-                </div>
-            </div>
-            <button class="rate-review-btn" onclick="openRatingModal(${product.id}, '${product.name}')">Rate & Review</button>
-            <button class="rate-review-btn" onclick="viewReviews(${product.id}, '${product.name}')">View Reviews</button>
-        </div>
-    `;
+  const rating = parseFloat(product.average_rating) || 0;
+  const total = parseInt(product.total_ratings) || 0;
+  // Format price with commas
+  const formattedPrice = Number(product.price).toLocaleString("en-IN");
+  return `
+          <div class="product-card">
+              ${
+                product.image_url
+                  ? `<img src="${product.image_url}" alt="${product.name}" class="product-image">`
+                  : ""
+              }
+              <div class="product-name">${product.name}</div>
+              <div>${product.description}</div>
+              <div class="price-rating-container">
+                  <div class="product-price">₹${formattedPrice}</div>
+                  <div class="rating-info">
+                      <div class="numeric-rating">Rating: ${rating.toFixed(
+                        1
+                      )}</div>
+                      <div>(${total} ratings)</div>
+                  </div>
+              </div>
+              <button class="rate-review-btn" onclick="openRatingModal(${
+                product.id
+              }, '${product.name}')">Rate & Review</button>
+              <button class="rate-review-btn" onclick="viewReviews(${
+                product.id
+              }, '${product.name}')">View Reviews</button>
+          </div>
+      `;
 }
 
 function generateStars(rating) {
@@ -242,36 +254,57 @@ async function viewReviews(productId, productName) {
 }
 
 function displayReviews(data, productName) {
-    const { ratings, reviews, stats } = data;
-    document.getElementById('reviewsModalTitle').textContent = `Reviews: ${productName}`;
-    
-    const reviewItems = reviews.map(review => {
-        const userRating = ratings.find(r => r.user_id === review.user_id);
-        const ratingStars = userRating ? generateStars(userRating.rating) : '';
-        
-        return `
+  const { ratings, reviews, stats } = data;
+  document.getElementById(
+    "reviewsModalTitle"
+  ).textContent = `Reviews: ${productName}`;
+
+  const reviewItems = reviews
+    .map((review) => {
+      const userRating = ratings.find((r) => r.user_id === review.user_id);
+      const ratingValue = userRating ? userRating.rating : null;
+      return `
             <div class="review-item">
                 <div class="review-header">
                     <span class="review-user">${review.user_name}</span>
-                    <span class="review-rating">${ratingStars}</span>
+                    <span class="review-rating">${
+                      ratingValue !== null ? `Rating: ${ratingValue}` : ""
+                    }</span>
                 </div>
-                ${review.title ? `<div class="review-title">${review.title}</div>` : ''}
+                ${
+                  review.title
+                    ? `<div class="review-title">${review.title}</div>`
+                    : ""
+                }
                 <div class="review-text">${review.review_text}</div>
-                ${review.image_url ? `
+                ${
+                  review.image_url
+                    ? `
                     <div class="review-image">
                         <img src="${review.image_url}" alt="Review photo" onclick="openImageModal('${review.image_url}')">
                     </div>
-                ` : ''}
-                <div class="review-date">${new Date(review.created_at).toLocaleDateString()}</div>
+                `
+                    : ""
+                }
+                <div class="review-date">${new Date(
+                  review.created_at
+                ).toLocaleDateString()}</div>
             </div>
         `;
-    }).join('');
-    
-    document.getElementById('reviewsContent').innerHTML = `
+    })
+    .join("");
+
+  document.getElementById("reviewsContent").innerHTML = `
         <div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
-            <strong>Average Rating: ${stats.average_rating.toFixed(1)} ⭐ (${stats.total_ratings} ratings)</strong>
+            <strong>Average Rating: ${stats.average_rating.toFixed(1)} (${
+    stats.total_ratings
+  } ratings)</strong>
         </div>
-        ${reviews.length ? reviewItems : '<div style="text-align: center; padding: 20px; color: #666;">No reviews yet</div>'}
+        ${
+          reviews.length
+            ? reviewItems
+            : '<div style="text-align: center; padding: 20px; color: #666;">No reviews yet</div>'
+        }
     `;
 }
 
