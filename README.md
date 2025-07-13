@@ -1,4 +1,12 @@
-# Product Reviews Assignment for Fitpage
+# Product Reviews Platform
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-green)](https://fitpage-assignment.onrender.com/)
+[![Deployment](https://img.shields.io/badge/Deployed%20on-Render-blue)](https://fitpage-assignment.onrender.com/)
+
+This app is a Product Reviews Platform that allows users to view products, rate them (1-5 stars), and add reviews with text, title, and images. It uses Supabase for the database (storing users, products, reviews, and ratings) and Cloudinary for image uploads. Users can register, browse products, submit ratings and reviews, and view all reviews for each product through a web interface. The app is designed for easy setup and online hosting, leveraging Supabase's PostgreSQL compatibility and Cloudinary's media management.
+
+## 🌐 Live Demo
+Visit our platform at: [Live Demo](https://fitpage-assignment.onrender.com/)
 
 ## Database Schema
 
@@ -63,32 +71,3 @@ Application will be available at: `http://localhost:3000`
 4. Rate a product (1-5 stars)
 5. Add review text and title and images
 6. View reviews for products
-
-## Author Information
-
-<table>
-  <tr>
-    <td><strong>Name:</strong></td>
-    <td>Nayan Mandal</td>
-  </tr>
-  <tr>
-    <td><strong>Program:</strong></td>
-    <td colspan="3">B.Tech - Computer Science Engineering (Minor in Data Science and Analytics)</td>
-  </tr>
-  <tr>
-    <td><strong>Institute:</strong></td>
-    <td colspan="3">Indian Institute Of Information Technology, Nagpur</td>
-  </tr>
-  <tr>
-    <td><strong>Email (Institute):</strong></td>
-    <td><a href="mailto:bt22csd035@iiitn.ac.in">bt22csd035@iiitn.ac.in</a></td>
-    <td><strong>Email (Personal):</strong></td>
-    <td><a href="mailto:nayan.iiitn@gmail.com">nayan.iiitn@gmail.com</a></td>
-  </tr>
-  <tr>
-    <td><strong>GitHub:</strong></td>
-    <td><a href="https://github.com/9keystrokes">github.com/9keystrokes</a></td>
-    <td><strong>LinkedIn:</strong></td>
-    <td><a href="https://linkedin.com/in/9keystrokes">linkedin.com/in/9keystrokes</a></td>
-  </tr>
-</table>
