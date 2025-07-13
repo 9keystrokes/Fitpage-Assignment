@@ -25,7 +25,7 @@ The application uses the following database schema:
 ### Prerequisites
 - Node.js (version 14.x or higher)
 - npm
-- Supabase account
+- Supabase account (for database)
 - Cloudinary account (for image uploads)
 
 ***Note**: This application uses **Supabase instead of a traditional PostgreSQL database**. As we needed to host it on a platform, an online database service like Supabase is preferred. Although **Supabase supports PostgreSQL, it provides a more convenient setup for web applications**.*
